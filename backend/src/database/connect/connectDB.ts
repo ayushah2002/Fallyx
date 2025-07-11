@@ -1,5 +1,5 @@
 import sequelize from "../../config/database";
-import "../../models/incident"
+import "../../models/incident";
 
 const connectDB = async () => {
     try {
@@ -10,6 +10,7 @@ const connectDB = async () => {
         console.log(sequelize.models);
         await sequelize.sync({ alter: true });
         console.log('sync database successful')
+
         return sequelize;
     } catch (error) {
         console.error('ERROR: connection unsuccessful', error);
