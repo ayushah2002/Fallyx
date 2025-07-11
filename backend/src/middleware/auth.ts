@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import admin from 'firebase-admin';
+import admin from '../config/firebase';
 
 export async function authenticateUser(req: Request, res: Response, next: NextFunction): Promise<void> {
     const authHeader = req.headers.authorization;

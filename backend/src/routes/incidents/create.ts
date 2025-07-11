@@ -4,13 +4,24 @@ import Incident from "../../models/incident";
 
 const router = Router();
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateUser, async (req, res) => {
     try {
-        
+        const user = (req as any).user;
+
+        if (!user || !user.uid) {
+            res.status(401).json({ message: "Unauthorized user"});
+        }
+
+        const userId = user.uid;
+        const { id, uid, type, description, summary } = req.body;
+
+        const sum = summary ? summary != "" : null;
         const incident = await Incident.create({
-            userId: 1234,
-            type: "fall",
-            description: "hi there",
+            id: id,
+            userId: userId,
+            type: type,
+            description: description,
+            summary: sum,
         })
 
         console.log("Sample incident created: ", incident.toJSON());

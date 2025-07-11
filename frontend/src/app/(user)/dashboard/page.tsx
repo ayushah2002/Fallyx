@@ -17,7 +17,7 @@ const Dashboard = () => {
         {id: 'userId', label: 'User ID'},
         {id: 'type', label: 'Type'},
         {id: 'createdAt', label: 'Created'},
-        {description: 'updatedAt', label: 'Updated'}
+        {id: 'updatedAt', label: 'Updated'}
     ];
 
     return (
@@ -69,7 +69,9 @@ const Dashboard = () => {
                         </TableHead>
 
                         <TableBody>
-                            hi
+                            <TableRow>
+                                <TableCell>hi</TableCell>
+                            </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>

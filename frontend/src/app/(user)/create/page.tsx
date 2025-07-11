@@ -1,7 +1,8 @@
 "use client"
 
 import useFireBaseAuth from "@/hooks/useFirebaseAuth";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import toast from 'react-hot-toast'
 
 const CreateIncident = () => {
     const [id, setId] = useState("");
@@ -22,11 +23,13 @@ const CreateIncident = () => {
         setId(random)
     }, [user]);
 
-    const handleCreateIncident = async() => {
+    const handleCreateIncident = async(e: React.FormEvent) => {
+        e.preventDefault();
         try {
             if(!user) {
                 setResult("User not authenticated");
                 setIsError(true);
+                toast.error("Error creating incident");
                 return;
             }
 
@@ -52,13 +55,15 @@ const CreateIncident = () => {
                 console.log(data);
                 setResult(`Error: ${data.message}`);
                 setIsError(true);
+                toast.error("Error creating incident");
                 return;
             }
             console.log("Incident created for ", data);
-            setResult("Incident Created Successfully");
+            toast.success("Incident Created Successfully!");
 
         } catch (error) {
             console.log(error);
+            toast.error("Error creating incident");
             setResult("Error creating incident");
             setIsError(true);
         }

@@ -3,7 +3,7 @@ import sequelize from '../config/database';
 
 class Incident extends Model {
     declare id: number;
-    declare userId: number;
+    declare userId: string;
     declare type: string;
     declare description: string;
     declare summary?: string;
@@ -18,7 +18,7 @@ class Incident extends Model {
                 autoIncrement: true,
             },
             userId: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 allowNull: false,
             },
             type: {
