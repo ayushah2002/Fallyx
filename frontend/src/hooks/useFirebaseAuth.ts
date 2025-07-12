@@ -4,14 +4,16 @@ import { auth } from "@/lib/firebase";
 
 export default function useFireBaseAuth() {
     const [user, setUser] = useState<User | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const isLoggedIn = onAuthStateChanged(auth, (fireUser) => {
             setUser(fireUser);
+            setIsLoading(false);
         });
 
         return () => isLoggedIn();
     }, []);
     
-    return user;
+    return { user, isLoading };
 }
