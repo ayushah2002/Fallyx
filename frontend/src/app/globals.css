@@ -49,6 +49,19 @@ button:hover {
   background-color: grey;
 }
 
+textarea {
+  border-color: black;
+  background-color: #ededed;
+  border-width: 1px;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+textarea:read-only {
+  background-color: #c4c0c0;
+  border-color: #7a7878;
+}
+
 input {
   width: 100%;
   max-width: 24rem;
@@ -78,4 +91,13 @@ span {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.AI-button {
+  background-color: rgb(95, 9, 9);
+  color: white;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.8rem;
 }

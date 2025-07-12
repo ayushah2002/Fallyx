@@ -1,9 +1,13 @@
 "use client"
 
 import useFireBaseAuth from "@/hooks/useFirebaseAuth";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import toast from 'react-hot-toast'
 
 const CreateIncident = () => {
+    const router = useRouter();
+    
     const [id, setId] = useState("");
     const [userId, setUserId] = useState('');
     const [type, setType] = useState('');
@@ -12,7 +16,7 @@ const CreateIncident = () => {
     const [result, setResult] = useState<string | null>(null);
     const [isError, setIsError] = useState(false);
  
-    const user = useFireBaseAuth();
+    const { user } = useFireBaseAuth();
     useEffect(() => {
         if (user?.uid) {
             setUserId(user.uid);
@@ -22,11 +26,13 @@ const CreateIncident = () => {
         setId(random)
     }, [user]);
 
-    const handleCreateIncident = async() => {
+    const handleCreateIncident = async(e: React.FormEvent) => {
+        e.preventDefault();
         try {
             if(!user) {
                 setResult("User not authenticated");
                 setIsError(true);
+                toast.error("Error creating incident");
                 return;
             }
 
@@ -52,18 +58,24 @@ const CreateIncident = () => {
                 console.log(data);
                 setResult(`Error: ${data.message}`);
                 setIsError(true);
+                toast.error("Error creating incident");
                 return;
             }
             console.log("Incident created for ", data);
-            setResult("Incident Created Successfully");
+            toast.success("Incident Created Successfully!");
 
         } catch (error) {
             console.log(error);
+            toast.error("Error creating incident");
             setResult("Error creating incident");
             setIsError(true);
         }
     }
 
+    const handleBackButton = () => {
+        router.push("/dashboard");
+    }
+    
     return (
         <div className="container justify-center"> 
             <form onSubmit={handleCreateIncident} className="space-y-4">
@@ -79,7 +91,6 @@ const CreateIncident = () => {
                         value={id} 
                         readOnly 
                         className="bg-gray-200"
-                        onChange={e => setId(e.target.value)}
                     />
                 </div>
 
@@ -112,10 +123,10 @@ const CreateIncident = () => {
                         Description
                         <span className="text-red-500 ml-0.5">*</span>
                     </label>
-                    <input 
-                        value={description} 
+                    <textarea
+                        value={description}
                         onChange={e => setDescription(e.target.value)}
-                        className="h-50"
+                        className="w-full min-h-[120px] rounded resize overflow-auto"
                     />
                 </div>
 
@@ -124,12 +135,19 @@ const CreateIncident = () => {
                         Summary 
                         <label className="text-gray-500 ml-0.5 font-medium text-sm">(Optional)</label>
                     </label>
-                    <input value={summary} onChange={e => setSummary(e.target.value)}/>
+                    <textarea
+                        value={summary || ""}
+                        onChange={e => setSummary(e.target.value)}
+                        className="w-full min-h-[120px] rounded resize overflow-auto"
+                    />
                 </div>
 
                 <div className="flex justify-center">
                     <button type="submit">
                         Create Incident
+                    </button>
+                    <button type="button" onClick={handleBackButton}>
+                        Back
                     </button>
                 </div>
             </form>
