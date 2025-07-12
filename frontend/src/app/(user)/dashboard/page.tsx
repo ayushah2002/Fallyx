@@ -52,7 +52,11 @@ const Dashboard = () => {
                     toast.error("Error getting incidents");
                     return;
                 }
-                setLogs(data);
+                setLogs(
+                    data.sort(
+                      (a: Log, b: Log) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+                    )
+                  );                  
             } catch (error) {
                 console.log(error);
                 toast.error("Error retrieving incidents");

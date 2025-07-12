@@ -1,6 +1,7 @@
 import { authenticateUser } from "../../middleware/auth";
 import { Router, Response, Request } from "express";
 import Incident from "../../models/incident";
+import openai from "../../config/openai";
 
 const router = Router();
 
@@ -109,5 +110,45 @@ router.get('/:id', authenticateUser, async (req, res) => {
         res.status(500).json({ message: "Failed to get incident." });
     }
 });
+
+router.post("/:id/summarize", authenticateUser, async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const incident = await Incident.findByPk(id);
+        if(!incident) {
+            res.status(404).json({ message: "Incident not found"} );
+        }
+
+        else {
+            const generate = await openai.chat.completions.create({
+                model: "gpt-4o-mini",
+                messages: [
+                    {
+                        role: "system",
+                        content: "Given the medical incident description and incident, a summary is required from a medical assistant perspective."
+                    },
+                    {
+                        role: "user",
+                        content: `Using 2 sentences, summarize the following incident description: \n${incident.description} and ${incident.type}.`
+                    }
+                ],
+                temperature: 0.4,
+            })
+
+            const summarized = generate.choices[0].message.content;
+
+            incident.summary = summarized ?? undefined;
+            await incident.save();
+
+            console.log("Sample incident updated: ", incident.toJSON());
+            res.status(201).json({ message: "Summary generated for incident", summarized });
+        }
+
+    } catch (error) {
+        console.log("Incident summary generation failed: ", error);
+        res.status(500).json({ error: "Failed to generate summary for incident" });
+    }
+})
 
 export default router;

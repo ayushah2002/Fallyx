@@ -29,6 +29,43 @@ const ViewIncident = () => {
  
     const { user, isLoading } = useFireBaseAuth();
     
+    const getIncident = async () => {
+        setLoading(true);
+
+        try {
+            if(!user) {
+                toast.error("Error authorizing user");
+                return;
+            }
+            const token = await user.getIdToken();
+            console.log(id)
+            const result = await fetch(`http://localhost:4000/incidents/${id}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
+
+            const data = await result.json();
+
+            if (!data || data.error) {
+                console.log(data);
+                toast.error("Error getting incidents");
+                return;
+            }
+            setType(data.type);
+            setDescription(data.description);
+            setSummary(data.summary || "");
+            console.log("summary: ", summary)
+            setIncident(data);
+        } catch (error) {
+            console.log(error);
+            toast.error("Error retrieving incidents");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (isLoading) return;
         if (!id) return;
@@ -37,45 +74,8 @@ const ViewIncident = () => {
             return;
         }
 
-        const getIncident = async () => {
-            setLoading(true);
-
-            try {
-                if(!user) {
-                    toast.error("Error authorizing user");
-                    return;
-                }
-                const token = await user.getIdToken();
-                console.log(id)
-                const result = await fetch(`http://localhost:4000/incidents/${id}`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                    }
-                });
-
-                const data = await result.json();
-
-                if (!data || data.error) {
-                    console.log(data);
-                    toast.error("Error getting incidents");
-                    return;
-                }
-                setType(data.type);
-                setDescription(data.description);
-                setSummary(data.summary || "");
-                console.log("summary: ", summary)
-                setIncident(data);
-            } catch (error) {
-                console.log(error);
-                toast.error("Error retrieving incidents");
-            } finally {
-                setLoading(false);
-            }
-        };
-
         getIncident()
-    }, [user, id, isLoading]);
+    }, [user, id, isLoading, summary]);
 
     if (!incident) {
         return (
@@ -135,6 +135,42 @@ const ViewIncident = () => {
         router.push("/dashboard");
     }
     
+    const handleSummaryGeneration = async () => {
+        try {
+            if(!user) {
+                toast.error("Error generating summary for incident");
+                return;
+            }
+
+            const token = await user.getIdToken();
+            const result = await fetch(`http://localhost:4000/incidents/${id}/summarize`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    type,
+                    description,
+                    summary,
+                })
+            })
+
+            const data = await result.json();
+
+            if (!data || data.error) {
+                console.log(data);
+                toast.error("Error generating summary");
+                return;
+            }
+            console.log("Incident summary generated and updated for ", data);
+            toast.success("Incident Summary Generated Successfully!");
+            await getIncident();
+        } catch (error) {
+            console.log(error);
+            toast.error("Error generating summary");
+        }
+    }
     
     return (
         <div className="container justify-center"> 
@@ -173,7 +209,7 @@ const ViewIncident = () => {
                 </div>
 
                 <div className="flex justify-center">
-                    <button type="button" className="AI-button">
+                    <button type="button" className="AI-button" onClick={handleSummaryGeneration}>
                         Generate AI Summary
                     </button>
                 </div>
@@ -184,7 +220,7 @@ const ViewIncident = () => {
                         <label className="text-gray-500 ml-0.5 font-medium text-sm">(Optional)</label>
                     </label>
                     <textarea
-                        value={incident.summary || ""}
+                        value={summary || ""}
                         readOnly
                         onChange={e => setSummary(e.target.value)}
                         className="w-full min-h-[120px] rounded resize overflow-auto"
