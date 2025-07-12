@@ -1,5 +1,5 @@
 import { Router } from "express";
-import incidentsRouter from './incidents/create'
+import incidentsRouter from './incidents/incident'
 
 const router = Router();
 
