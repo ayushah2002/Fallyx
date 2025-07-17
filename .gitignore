@@ -7,8 +7,8 @@ backend/node_modules/
 .next/          # frontend Next.js build
 dist/           # backend build
 build/          # backend possible build
-frontend/.next/ # redundant but safe
-backend/dist/   # redundant but safe
+frontend/.next/ 
+backend/dist/   
 
 # Coverage reports
 coverage/
