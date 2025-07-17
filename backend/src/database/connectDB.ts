@@ -1,5 +1,5 @@
-import sequelize from "../../config/database";
-import "../../models/incident";
+import sequelize from "../config/database";
+import "../models/incident";
 
 const connectDB = async () => {
     try {
