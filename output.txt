@@ -1,0 +1,83 @@
+.
+├── README.md
+├── backend
+│   ├── coverage
+│   │   ├── clover.xml
+│   │   ├── coverage-final.json
+│   │   ├── lcov-report
+│   │   │   ├── base.css
+│   │   │   ├── block-navigation.js
+│   │   │   ├── favicon.png
+│   │   │   ├── index.html
+│   │   │   ├── prettify.css
+│   │   │   ├── prettify.js
+│   │   │   ├── sort-arrow-sprite.png
+│   │   │   ├── sorter.js
+│   │   │   └── src
+│   │   │       ├── app.ts.html
+│   │   │       ├── config
+│   │   │       ├── index.html
+│   │   │       ├── models
+│   │   │       └── routes
+│   │   └── lcov.info
+│   ├── jest.config.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── src
+│   │   ├── app.ts
+│   │   ├── config
+│   │   │   ├── database.ts
+│   │   │   ├── firebase.ts
+│   │   │   └── openai.ts
+│   │   ├── database
+│   │   │   └── connectDB.ts
+│   │   ├── middleware
+│   │   │   └── auth.ts
+│   │   ├── models
+│   │   │   ├── incident.ts
+│   │   │   └── index.ts
+│   │   ├── routes
+│   │   │   ├── incidents
+│   │   │   │   └── incident.ts
+│   │   │   └── index.ts
+│   │   └── server.ts
+│   ├── tests
+│   │   └── incidents.test.ts
+│   └── tsconfig.json
+├── eslint.config.mjs
+├── frontend
+│   ├── next-env.d.ts
+│   ├── next.config.ts
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.mjs
+│   ├── public
+│   │   ├── fallyx-logo.png
+│   │   ├── fallyx.png
+│   │   ├── file.svg
+│   │   ├── globe.svg
+│   │   ├── medical-logo.png
+│   │   ├── next.svg
+│   │   ├── vercel.svg
+│   │   └── window.svg
+│   ├── src
+│   │   ├── app
+│   │   │   ├── (auth)
+│   │   │   │   └── login
+│   │   │   ├── (user)
+│   │   │   │   ├── create
+│   │   │   │   ├── dashboard
+│   │   │   │   └── view
+│   │   │   ├── favicon.ico
+│   │   │   ├── globals.css
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── hooks
+│   │   │   └── useFirebaseAuth.ts
+│   │   └── lib
+│   │       └── firebase.ts
+│   └── tsconfig.json
+├── output.txt
+└── tsconfig.base.json
+
+28 directories, 53 files
