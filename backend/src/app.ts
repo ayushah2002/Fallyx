@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(router);
 
 app.get('/', (req, res) => {
-    res.send('Backend is running yessir!');
+    res.send('Backend is running!');
 });
 
 

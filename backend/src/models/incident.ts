@@ -30,7 +30,7 @@ class Incident extends Model {
                 allowNull: false,
             },
             summary: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
                 allowNull: true,
             },
             createdAt: {
