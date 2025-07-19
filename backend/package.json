@@ -6,7 +6,9 @@
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "jest",
+    "test:integration": "jest tests/integration",
+    "test:unit": "jest tests/unit",
+    "test": "npm run test:unit && npm run test:integration",
     "lint": "eslint ./src --config ../eslint.config.mjs --ext .ts"
   },
   "keywords": [],

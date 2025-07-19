@@ -1,7 +1,7 @@
 import Incident from "../models/incident";
 import openai from "../config/openai";
 
-class IncidentService {
+export class IncidentService {
   async create(userId: string, incidentData: any) {
     return await Incident.create({
       ...incidentData,

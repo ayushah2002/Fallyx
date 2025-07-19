@@ -54,3 +54,7 @@ cd backend
 npm install
 npm run dev
 --> will run on localhost:4000
+
+# How to run the tests
+cd Fallyx 
+npm test

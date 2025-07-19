@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import incidentService from "../services/incidentService";
 
-class IncidentController {
+export class IncidentController {
 
     // Create Incident
     async create(req: Request, res: Response) {
@@ -15,7 +15,7 @@ class IncidentController {
 
             const incident = await incidentService.create(user.uid, req.body);
             // console.log("Sample incident created: ", incident.toJSON());
-            res.status(201).json({ message: "Incident created", incident });
+            res.status(200).json({ message: "Incident created", incident });
             return;
         } catch (error) {
             console.error("Incident creation failed:", error);
@@ -62,7 +62,7 @@ class IncidentController {
 
             const incidents = await incidentService.findAllByUser(user.uid);
             //console.log("All incidents retrieved");
-            res.json(incidents);
+            res.status(200).json(incidents);
             return;
         } catch (error) {
             console.error("Incident retrieval failed:", error);
@@ -88,7 +88,7 @@ class IncidentController {
             }
         
             // console.log("Incident Retrieved");
-            res.json(incident);
+            res.status(200).json(incident);
             return;
         } catch (error) {
             console.error("Incident retrieval failed:", error);
